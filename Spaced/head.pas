@@ -1,3 +1,4 @@
+(* $I done when done with debugging *)
 {$IFDEF DONE_ALL}
     (* there is no need to debug *)
 {$ELSE}

@@ -1,5 +1,5 @@
 {$I head}
-program Game;
+program Spaced;
 
 uses
   SDL, FGL, Math;
