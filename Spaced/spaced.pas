@@ -350,13 +350,13 @@ procedure UpdateGame;
       OY:=OY + (TOY - OY)*0.9;
       TOX:=TOX*0.9;
       TOY:=TOY*0.9;
-      if (Game.Life <> 0) and RectOverRect(X, Y, X + 31, Y + 31, PlayerX, 206, PlayerX + 31, 240) then begin
+      if (Spaced.Life <> 0) and RectOverRect(X, Y, X + 31, Y + 31, PlayerX, 206, PlayerX + 31, 240) then begin
         DeleteLater(Enemies[I]);
         LaunchPoof(X, Y, P2Img, 10);
         LaunchPoof((X + PlayerX) div 2, (Y + 206) div 2, P2Img, 30);
         LaunchPoof(PlayerX + 13, 204, P1Img, 70);
         LaunchPoof(PlayerX + 17, 207, P1Img, 96);
-        Game.Life:=0;
+        Spaced.Life:=0;
         RetryY:=-32;
       end;
     end;
@@ -427,12 +427,12 @@ procedure UpdateGame;
         Inc(Score, Y*3+30);
         Continue;
       end;
-      if PHarm and (Game.Life > 0) and RectOverRect(X, Y, X + 8, Y + 8, PlayerX + 4, 210, PlayerX + 28, 224) then begin
+      if PHarm and (Spaced.Life > 0) and RectOverRect(X, Y, X + 8, Y + 8, PlayerX + 4, 210, PlayerX + 28, 224) then begin
         DeleteLater(Projectiles[I]);
         HitTime:=4;
         LaunchPoof(X, Y, P2Img, 10);
-        Dec(Game.Life);
-        if Game.Life=0 then begin
+        Dec(Spaced.Life);
+        if Spaced.Life=0 then begin
           LaunchPoof((X + PlayerX) div 2, (Y + 206) div 2, P2Img, 30);
           LaunchPoof(PlayerX + 13, 204, P1Img, 70);
           LaunchPoof(PlayerX + 17, 207, P1Img, 96);

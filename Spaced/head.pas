@@ -28,7 +28,9 @@
 *)
 
 {$IFDEF DEBUG}
-    {$CHECKPOINTER ON}
+    {$IFNDEF LINUX}
+        {$CHECKPOINTER ON}
+    {$ENDIF}
     {$R+}
     {$ASSERTIONS ON}
     {$T+} (* pointer type checking *)
