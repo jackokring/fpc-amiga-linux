@@ -1,5 +1,5 @@
+{$I head}
 program Game;
-{$MODE OBJFPC}
 
 uses
   SDL, FGL, Math;
