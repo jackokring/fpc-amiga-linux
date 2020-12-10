@@ -14,6 +14,7 @@ var
   Level, Life, Score, RetryY: Integer;
   PlayerShootTime, ShootTime, HitTime: Cardinal;
   ScaleMode: Integer = 2; (* best scaling *)
+  PercentNotFire: Integer;
 
 (* Generic movable processing and memory management *)
 function SDL_SoftStretch(Src: PSDL_Surface; SrcRect: PSDL_Rect; Dst: PSDL_Surface; DstRect: PSDL_Rect): Integer; cdecl; external 'SDL';
@@ -24,10 +25,10 @@ var
 begin
   P:=TProjectile.Create;
   Projectiles.Add(P);
-  P.X:=Round(X);
-  P.Y:=Round(Y);
   P.FX:=X;
   P.FY:=Y;
+  P.X:=Round(X);
+  P.Y:=Round(Y);
   P.DX:=DX;
   P.DY:=DY;
   P.Img:=Img;
@@ -212,6 +213,12 @@ begin
 end;
 
 (* Game loop and initializers *)
+procedure SetLevel(At: Integer);
+begin
+  Level:=At;
+  PercentNotFire:=4*((Level div 3)+1);
+end;
+
 procedure NewGame(Reset: Boolean);
 
   procedure InitEnemies;
@@ -240,7 +247,7 @@ begin
   PlayerX:=160 - 16;
   if Reset then begin
     Life:=4;
-    Level:=1;
+    SetLevel(1);
     Score:=0;
   end;
   FreeAndNil(Enemies);
@@ -389,7 +396,7 @@ procedure UpdateGame;
   var
     TX, TY, Len: Single;
   begin
-    if Random(100) > 4*((Level div 3)+1)  then Exit;
+    if Random(100) > PercentNotFire then Exit;
     if Enemies.Count=0 then Exit;
     with Enemies[Random(Enemies.Count)] do begin
       TOY:=TOY-2;
@@ -412,7 +419,7 @@ begin
       SDL_Delay(600);
       Inc(Life);
       Inc(Score, 1000);
-      Inc(Level);
+      SetLevel(Level + 1);
       NewGame(False);
     end;
   end else begin
@@ -475,7 +482,7 @@ begin
   Randomize;
   SDL_Init(SDL_INIT_VIDEO);
   if not InitVideo then Exit;
-  SDL_WM_SetCaption(GameName, GameName);
+  SDL_WM_SetCaption(PChar(GameName), PChar(GameName));
   LoadImages;
   TitleScreen;
   NewGame(True);

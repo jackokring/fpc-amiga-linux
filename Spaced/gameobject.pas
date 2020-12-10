@@ -2,16 +2,16 @@
 (* Game object class definitions *)
 unit GameObject;
 
-uses SGL, FGL;
-
 interface
+
+uses SDL, FGL;
 
 type
     TThing = class
     public
         X, Y: Integer;
         OX, OY: Single; (* splash *)
-        WX, WY: Single; (* width, height *)
+        WX, WY: Integer; (* width, height *)
         Img: PSDL_Surface;
     end;
 
@@ -26,7 +26,7 @@ type
 
     TProjectile = class(TThing)
     public
-        FX, FY: Single; (* temp X, Y focal centre *)
+        FX, FY: Single; (* centroid *)
         DX, DY: Single; (* delta *)
         PHarm, EHarm: Boolean; (* player and enemy harm flags *)
         Life: Integer; (* life time of existance *)
@@ -95,24 +95,25 @@ end;
 function Load(Name: AnsiString): PSDL_Surface;
 begin
     Result:=SDL_LoadBMP(PChar(Name));
-    if Lenfth(ImagesLoaded) <> 0 then
+    if Length(ImagesLoaded) <> 0 then
         SDL_SetColorKey(Result, SDL_SRCCOLORKEY, SDL_MapRGB(Result^.format, 255, 0, 255));
     SetLength(ImagesLoaded, Length(ImagesLoaded) + 1);
-    ImagesLoaded[High()]:=Result;
+    ImagesLoaded[High(ImagesLoaded)]:=Result;
 end;
 
 procedure TEnemy.SetValues(IX, IY: Integer; IDirection: Integer; ILevel: Integer;
-    Image: Integer); virtual;
+    Image: Integer);
 begin
     X:=IX;
     Y:=IY;
     Wx:=32;
     WY:=32;
     Direction:=IDirection;
+    Image:=Image - 1; (* dynamic array starts at zero as dynamic !! *)
     if (ILevel*17 + IX*10 + IY*87) mod 2=0 then
         Img:=ImagesLoaded[Image]
     else
         Img:=ImagesLoaded[Image + 1];
-end
+end;
 
 end.
