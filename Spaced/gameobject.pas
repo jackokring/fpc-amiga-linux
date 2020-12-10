@@ -114,7 +114,7 @@ begin
     Direction:=IDirection;
     FireScale:=100;
     Image:=Image - 1; (* dynamic array starts at zero as dynamic !! *)
-    if (Level*17 + GX*311 + GY*3787) mod 2=0 then
+    if (ILevel*17 + X*311 + Y*3787) mod 2=0 then
         Img:=ImagesLoaded[Image]
     else
         Img:=ImagesLoaded[Image + 1];

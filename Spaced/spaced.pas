@@ -315,11 +315,11 @@ procedure UpdateGame;
       end;
     end;
     repeat
-      CollisionsBetween=False;
+      CollisionsBetween:=False;
       for I:=0 to Enemies.Count - 1 do with Enemies[I] do begin   
         if CollisionWithEnemy(X, Y, WX, WY, I) then begin
           CollisionsBetween:=True;
-          BounceMotionLimited;  
+          BounceMotionLimited; (* Must exit if called many times!! *)
         end
       end;
     until not CollisionsBetween;
@@ -407,7 +407,7 @@ procedure UpdateGame;
   begin
     if Enemies.Count=0 then Exit;
     with Enemies[Random(Enemies.Count)] do begin
-      if Random(10000) > (PercentFire*FireScale) or Y > PlayerY then Exit;
+      if (Random(10000) > PercentFire*FireScale) or (Y > PlayerY) then Exit;
       TOY:=TOY-2;
       TX:=PlayerX - X;
       TY:=PlayerY - Y;
