@@ -287,6 +287,7 @@ procedure UpdateGame;
   var
     I, J: Integer;
     Collisions, CollisionsBetween: Boolean;
+    Collider: PEnemy;
   begin
     for I:=0 to Enemies.Count - 1 do with Enemies[I] do begin
       Inc(X, Direction);
@@ -322,9 +323,9 @@ procedure UpdateGame;
     repeat
       CollisionsBetween:=False;
       for I:=0 to Enemies.Count - 1 do with Enemies[I] do begin   
-        if CollisionWithEnemy(X, Y, WX, WY, I) then begin
+        if CollisionWithEnemy(X, Y, WX, WY, I, Collider) then begin
           CollisionsBetween:=True;
-          BounceMotionLimited; (* Must exit if called many times!! *)
+          BounceMotionLimited(Collider); (* Must exit if called many times!! *)
         end
       end;
     until not CollisionsBetween;

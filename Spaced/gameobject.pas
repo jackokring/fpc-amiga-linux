@@ -24,7 +24,7 @@ type
         procedure SetValues(IX, IY: Integer; IDirection: Integer; ILevel: Integer;
             Image: Integer); virtual;
         procedure ExtraMotion(PX, PY: Integer); virtual;
-        procedure BounceMotionLimited; virtual;
+        procedure BounceMotionLimited(Collider: PEnemy); virtual;
     end;
 
     TProjectile = class(TThing)
@@ -125,7 +125,7 @@ begin
 
 end;
 
-procedure TEnemy.BounceMotionLimited;
+procedure TEnemy.BounceMotionLimited(Collider: PEnemy);
 begin
 
 end;
