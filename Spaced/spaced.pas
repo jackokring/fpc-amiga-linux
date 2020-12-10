@@ -107,6 +107,11 @@ begin
   P2Img:=Load('part2.bmp'); (* 14 *)
 end;
 
+procedure WaveScreen;
+begin
+
+end;
+
 procedure TitleScreen;
 var
   Title: PSDL_Surface;
@@ -425,7 +430,8 @@ begin
     if Key(SDLK_LCTRL) then ShootPlayerBullet;
 
     if Enemies.Count=0 then begin
-      SDL_Delay(600);
+      WaveScreen; (* wave end *)
+      SDL_Delay(1000);
       Inc(Life);
       Inc(Score, 1000);
       SetLevel(Level + 1);
@@ -433,7 +439,7 @@ begin
     end;
   end else begin
     if RetryY < 100 then Inc(RetryY, 6);
-    if Key(SDLK_LCTRL) then begin
+    if Key(SDLK_Space) then begin (* better for the loop halt missing wait on over *)
       NewGame(True);
       SDL_Delay(500);
       Exit;
