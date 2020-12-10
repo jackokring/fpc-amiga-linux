@@ -9,7 +9,7 @@ var
   Running: Boolean = True;
   KeyState: array [0..1024] of Boolean;
   Background, LifeImg, PlayerImg, PlayerHitImg, PlayerDeadImg, PlayerShootImg,
-    RetryImg, Nums, PBulletImg, EBulletImg, Enemy1Img, Enemy2Img, P1Img, P2Img: PSDL_Surface;
+    RetryImg, Nums, PBulletImg, EBulletImg, P1Img, P2Img: PSDL_Surface;
   PlayerX: Integer;
   Level, Life, Score, RetryY: Integer;
   PlayerShootTime, ShootTime, HitTime: Cardinal;
@@ -17,23 +17,6 @@ var
 
 (* Generic movable processing and memory management *)
 function SDL_SoftStretch(Src: PSDL_Surface; SrcRect: PSDL_Rect; Dst: PSDL_Surface; DstRect: PSDL_Rect): Integer; cdecl; external 'SDL';
-
-function RectOverRect(AX1, AY1, AX2, AY2, BX1, BY1, BX2, BY2: Integer): Boolean; inline;
-begin
-  Result:=not ((BX1 > AX2) or (BX2 < AX1) or (BY1 > AY2) or (BY2 < AY1));
-end;
-
-function CollisionWithEnemy(CX, CY: Integer; CW: Integer=32; CH: Integer=32; Ignore: Integer=-1; Enemy: PEnemy=nil): Boolean;
-var
-  I: Integer;
-begin
-  for I:=0 to Enemies.Count - 1 do with Enemies[I] do
-    if (I <> Ignore) and RectOverRect(X, Y, X + 31, Y + 31, CX, CY, CX + CW - 1, CY + CH - 1) then begin
-      if Assigned(Enemy) then Enemy^:=Enemies[I];
-      Exit(True);
-    end;
-  Result:=False;
-end;
 
 procedure LaunchProjectile(X, Y, DX, DY: Single; Img: PSDL_Surface; PHarm, EHarm: Boolean; Life: Integer=-1);
 var
@@ -104,30 +87,23 @@ begin
   SDL_Flip(RealSurface);
 end;
 
-(* Load bitmaps and titles and full screen draw *)
+(* Titles and full screen draw *)
 procedure LoadImages;
-
-  function Load(Name: AnsiString): PSDL_Surface;
-  begin
-    Result:=SDL_LoadBMP(PChar(Name));
-    SDL_SetColorKey(Result, SDL_SRCCOLORKEY, SDL_MapRGB(Result^.format, 255, 0, 255));
-  end;
-
 begin
-  Background:=SDL_LoadBMP('bgnd.bmp');
-  Nums:=Load('nums.bmp');
-  PlayerImg:=Load('player.bmp');
-  PlayerHitImg:=Load('plrhit.bmp');
-  PlayerDeadImg:=Load('plrdead.bmp');
-  PlayerShootImg:=Load('plrshoot.bmp');
-  RetryImg:=Load('retry.bmp');
-  LifeImg:=Load('life.bmp');
-  PBulletImg:=Load('pbullet.bmp');
-  EBulletImg:=Load('ebullet.bmp');
-  Enemy1Img:=Load('enemy1.bmp');
-  Enemy2Img:=Load('enemy2.bmp');
-  P1Img:=Load('part1.bmp');
-  P2Img:=Load('part2.bmp');
+  Background:=Load('bgnd.bmp'); (* 1 *)
+  Nums:=Load('nums.bmp'); (* 2 *)
+  PlayerImg:=Load('player.bmp'); (* 3 *)
+  PlayerHitImg:=Load('plrhit.bmp'); (* 4 *)
+  PlayerDeadImg:=Load('plrdead.bmp'); (* 5 *)
+  PlayerShootImg:=Load('plrshoot.bmp'); (* 6 *)
+  RetryImg:=Load('retry.bmp'); (* 7 *)
+  LifeImg:=Load('life.bmp'); (* 8 *)
+  PBulletImg:=Load('pbullet.bmp'); (* 9 *)
+  EBulletImg:=Load('ebullet.bmp'); (* 10 *)
+  Load('enemy1.bmp'); (* 11 *)
+  Load('enemy2.bmp'); (* 12 *)
+  P1Img:=Load('part1.bmp'); (* 13 *)
+  P2Img:=Load('part2.bmp'); (* 14 *)
 end;
 
 procedure TitleScreen;
@@ -246,13 +222,14 @@ procedure NewGame(Reset: Boolean);
       for GX:=0 to 7 do begin
         Enemies.Add(TEnemy.Create);
         with Enemies[GY*8 + GX] do begin
-          X:=GX*32 + 32;
+          SetValues(GX*32 + 32, GY*32, 1, Level, 11);
+          (* X:=GX*32 + 32;
           Y:=GY*32;
           Direction:=1;
           if (Level*17 + GX*311 + GY*3787) mod 2=0 then
             Img:=Enemy1Img
           else
-            Img:=Enemy2Img;
+            Img:=Enemy2Img; *)
         end;
       end;
     if Level < 19 then
@@ -305,7 +282,8 @@ procedure UpdateGame;
       OY:=OY + (TOY - OY)*0.9;
       TOX:=TOX*0.9;
       TOY:=TOY*0.9;
-      if (Spaced.Life <> 0) and RectOverRect(X, Y, X + 31, Y + 31, PlayerX, 206, PlayerX + 31, 240) then begin
+      if (Spaced.Life <> 0) and RectOverRect(X, Y, X + WX - 1, Y + WY - 1,
+          PlayerX, 206, PlayerX + 31, 240) then begin
         DeleteLater(Enemies[I]);
         LaunchPoof(X, Y, P2Img, 10);
         LaunchPoof((X + PlayerX) div 2, (Y + 206) div 2, P2Img, 30);

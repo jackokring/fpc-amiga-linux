@@ -2,7 +2,7 @@
 (* Game object class definitions *)
 unit GameObject;
 
-uses FGL;
+uses SGL, FGL;
 
 interface
 
@@ -10,15 +10,18 @@ type
     TThing = class
     public
         X, Y: Integer;
-        OX, OY: Single;
+        OX, OY: Single; (* splash *)
+        WX, WY: Single; (* width, height *)
         Img: PSDL_Surface;
     end;
 
     PEnemy = ^TEnemy;
     TEnemy = class(TThing)
     public
-        TOX, TOY: Single;
+        TOX, TOY: Single; (* splash control *)
         Direction: Integer;
+        procedure SetValues(IX, IY: Integer; IDirection: Integer; ILevel: Integer;
+            Image: Integer); virtual;
     end;
 
     TProjectile = class(TThing)
@@ -36,9 +39,14 @@ var
     Enemies: TEnemyList;
     Projectiles: TProjectileList;
     ToDelete: array of TObject;
+    ImagesLoaded: array of PSDL_Surface;
 
 procedure DeleteLater(AObject: TObject);
 procedure DeleteDeferredObjects;
+function RectOverRect(AX1, AY1, AX2, AY2, BX1, BY1, BX2, BY2: Integer): Boolean; inline;
+function CollisionWithEnemy(CX, CY: Integer; CW: Integer=32; CH: Integer=32;
+    Ignore: Integer=-1; Enemy: PEnemy=nil): Boolean;
+function Load(Name: AnsiString): PSDL_Surface;
 
 implementation
 
@@ -62,5 +70,48 @@ begin
     end;
     SetLength(ToDelete, 0);
 end;
+
+function RectOverRect(AX1, AY1, AX2, AY2, BX1, BY1, BX2, BY2: Integer): Boolean; inline;
+begin
+    Result:=not ((BX1 > AX2) or (BX2 < AX1) or (BY1 > AY2) or (BY2 < AY1));
+end;
+
+function CollisionWithEnemy(CX, CY: Integer; CW: Integer=32; CH: Integer=32;
+    Ignore: Integer=-1; Enemy: PEnemy=nil): Boolean;
+var
+    I: Integer;
+begin
+    for I:=0 to Enemies.Count - 1 do with Enemies[I] do
+        if (I <> Ignore) and RectOverRect(X, Y, X + WX - 1, Y + WY - 1,
+            CX, CY, CX + CW - 1, CY + CH - 1) then
+            begin
+                if Assigned(Enemy) then Enemy^:=Enemies[I];
+                Exit(True);
+            end;
+    Result:=False;
+end;
+
+function Load(Name: AnsiString): PSDL_Surface;
+begin
+    Result:=SDL_LoadBMP(PChar(Name));
+    if Lenfth(ImagesLoaded) <> 0 then
+        SDL_SetColorKey(Result, SDL_SRCCOLORKEY, SDL_MapRGB(Result^.format, 255, 0, 255));
+    SetLength(ImagesLoaded, Length(ImagesLoaded) + 1);
+    ImagesLoaded[High()]:=Result;
+end;
+
+procedure TEnemy.SetValues(IX, IY: Integer; IDirection: Integer; ILevel: Integer;
+    Image: Integer); virtual;
+begin
+    X:=IX;
+    Y:=IY;
+    Wx:=32;
+    WY:=32;
+    Direction:=IDirection;
+    if (ILevel*17 + IX*10 + IY*87) mod 2=0 then
+        Img:=ImagesLoaded[Image]
+    else
+        Img:=ImagesLoaded[Image + 1];
+end
 
 end.
