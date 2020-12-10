@@ -360,7 +360,8 @@ procedure UpdateGame;
         Inc(Score, Y*3+30);
         Continue;
       end;
-      if PHarm and (Spaced.Life > 0) and RectOverRect(X, Y, X + 8, Y + 8, PlayerX + 4, 210, PlayerX + 28, 224) then begin
+      if PHarm and (Spaced.Life > 0) and RectOverRect(X, Y, X + 8, Y + 8,
+          PlayerX + 4, 210, PlayerX + 28, 224) then begin
         DeleteLater(Projectiles[I]);
         HitTime:=4;
         LaunchPoof(X, Y, P2Img, 10);

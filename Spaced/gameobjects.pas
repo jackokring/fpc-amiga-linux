@@ -26,9 +26,10 @@ type
 
     TProjectile = class(TThing)
     public
-        FX, FY, DX, DY: Single;
-        PHarm, EHarm: Boolean;
-        Life: Integer;
+        FX, FY: Single; (* temp X, Y focal centre *)
+        DX, DY: Single; (* delta *)
+        PHarm, EHarm: Boolean; (* player and enemy harm flags *)
+        Life: Integer; (* life time of existance *)
     end;
 
     TThingList = specialize TFPGObjectList<TThing>;
