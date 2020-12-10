@@ -20,8 +20,11 @@ type
     public
         TOX, TOY: Single; (* splash control *)
         Direction: Integer;
+        FireScale: Integer;
         procedure SetValues(IX, IY: Integer; IDirection: Integer; ILevel: Integer;
             Image: Integer); virtual;
+        procedure ExtraMotion(PX, PY: Integer); virtual;
+        procedure BounceMotionLimited; virtual;
     end;
 
     TProjectile = class(TThing)
@@ -109,11 +112,22 @@ begin
     Wx:=32;
     WY:=32;
     Direction:=IDirection;
+    FireScale:=100;
     Image:=Image - 1; (* dynamic array starts at zero as dynamic !! *)
-    if (ILevel*17 + IX*10 + IY*87) mod 2=0 then
+    if (Level*17 + GX*311 + GY*3787) mod 2=0 then
         Img:=ImagesLoaded[Image]
     else
         Img:=ImagesLoaded[Image + 1];
+end;
+
+procedure TEnemy.ExtraMotion(PX, PY: Integer);
+begin
+
+end;
+
+procedure TEnemy.BounceMotionLimited;
+begin
+
 end;
 
 end.

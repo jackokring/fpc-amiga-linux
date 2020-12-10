@@ -10,11 +10,11 @@ var
   KeyState: array [0..1024] of Boolean;
   Background, LifeImg, PlayerImg, PlayerHitImg, PlayerDeadImg, PlayerShootImg,
     RetryImg, Nums, PBulletImg, EBulletImg, P1Img, P2Img: PSDL_Surface;
-  PlayerX: Integer;
+  PlayerX, PlayerY: Integer;
   Level, Life, Score, RetryY: Integer;
   PlayerShootTime, ShootTime, HitTime: Cardinal;
   ScaleMode: Integer = 2; (* best scaling *)
-  PercentNotFire: Integer;
+  PercentFire: Integer;
 
 (* Generic movable processing and memory management *)
 function SDL_SoftStretch(Src: PSDL_Surface; SrcRect: PSDL_Rect; Dst: PSDL_Surface; DstRect: PSDL_Rect): Integer; cdecl; external 'SDL';
@@ -198,13 +198,13 @@ begin
   if Life > 0 then begin
     if HitTime=0 then
       if ShootTime=0 then
-        Draw(PlayerX, 206, PlayerImg)
+        Draw(PlayerX, PlayerY, PlayerImg)
       else
-        Draw(PlayerX, 206, PlayerShootImg)
+        Draw(PlayerX, PlayerY, PlayerShootImg)
     else
-      Draw(PlayerX, 206, PlayerHitImg);
+      Draw(PlayerX, PlayerY, PlayerHitImg);
   end else
-    Draw(PlayerX, 206, PlayerDeadImg);
+    Draw(PlayerX, PlayerY, PlayerDeadImg);
   DrawThings(TThingList(Enemies));
   DrawThings(TThingList(Projectiles));
   DrawHUD;
@@ -216,7 +216,7 @@ end;
 procedure SetLevel(At: Integer);
 begin
   Level:=At;
-  PercentNotFire:=4*((Level div 3)+1);
+  PercentFire:=4*((Level div 3)+1);
 end;
 
 procedure NewGame(Reset: Boolean);
@@ -245,6 +245,7 @@ procedure NewGame(Reset: Boolean);
 
 begin
   PlayerX:=160 - 16;
+  PlayerY:=206;
   if Reset then begin
     Life:=4;
     SetLevel(1);
@@ -280,46 +281,54 @@ procedure UpdateGame;
   procedure MoveEnemies;
   var
     I, J: Integer;
-    Collisions: Boolean;
-    Sides: array of Integer;
+    Collisions, CollisionsBetween: Boolean;
   begin
     for I:=0 to Enemies.Count - 1 do with Enemies[I] do begin
       Inc(X, Direction);
+      ExtraMotion(PlayerX, PlayerY);
       OX:=OX + (TOX - OX)*0.9;
       OY:=OY + (TOY - OY)*0.9;
       TOX:=TOX*0.9;
       TOY:=TOY*0.9;
       if (Spaced.Life <> 0) and RectOverRect(X, Y, X + WX - 1, Y + WY - 1,
-          PlayerX, 206, PlayerX + 31, 240) then begin
+          PlayerX, PlayerY, PlayerX + 31, PlayerY + 31) then begin
         DeleteLater(Enemies[I]);
         LaunchPoof(X, Y, P2Img, 10);
-        LaunchPoof((X + PlayerX) div 2, (Y + 206) div 2, P2Img, 30);
-        LaunchPoof(PlayerX + 13, 204, P1Img, 70);
-        LaunchPoof(PlayerX + 17, 207, P1Img, 96);
+        LaunchPoof((X + PlayerX) div 2, (Y + PlayerY) div 2, P2Img, 30);
+        LaunchPoof(PlayerX + 13, PlayerY - 2, P1Img, 70);
+        LaunchPoof(PlayerX + 17, PlayerY + 1, P1Img, 96);
         Spaced.Life:=0;
         RetryY:=-32;
       end;
     end;
-    SetLength(Sides, 0);
+    Collisions:=False;
+    for I:=0 to Enemies.Count - 1 do with Enemies[I] do begin
+      if (X <= 0) or (X >= 320-WX) then begin
+        Collisions:=True;
+        if X < 0 then X:=0;
+        if X > 320-WX then X:=320-WX;
+      end;   
+      if Y < 0 then Inc(Y, 1);
+      if Y > 240 then begin
+        Y:=-WY;
+        X:=Random(320-WX);
+      end;
+    end;
     repeat
-      Collisions:=False;
+      CollisionsBetween=False;
+      for I:=0 to Enemies.Count - 1 do with Enemies[I] do begin   
+        if CollisionWithEnemy(X, Y, WX, WY, I) then begin
+          CollisionsBetween:=True;
+          BounceMotionLimited;  
+        end
+      end;
+    until not CollisionsBetween;
+    if Collisions then
       for I:=0 to Enemies.Count - 1 do with Enemies[I] do
-        if (X <= 0) or (X >= 320-32) or CollisionWithEnemy(X, Y, 32, 32, I) then begin
-          if (X <= 0) or (X >= 320-32) then begin
-            SetLength(Sides, Length(Sides) + 1);
-            Sides[High(Sides)]:=Y;
-          end;
-          Direction:=-Direction;
-          Inc(X, Direction);
-          Collisions:=True;
-        end;
-    until not Collisions;
-    for I:=0 to Enemies.Count - 1 do with Enemies[I] do
-      for J:=0 to High(Sides) do
-        if Sides[J] <= Y then begin
-          Inc(Y, 2);
-          Break;
-        end;
+      begin
+        Direction:=-Direction;
+        Inc(Y, 1);
+      end;
   end;
 
   procedure Splash(CX, CY: Integer);
@@ -330,8 +339,8 @@ procedure UpdateGame;
     Len, TX, TY: Single;
   begin
     for I:=0 to Enemies.Count - 1 do with Enemies[I] do begin
-      TX:=X - CX + 16;
-      TY:=Y - CY + 16;
+      TX:=X - CX + (WX shl 2);
+      TY:=Y - CY + (WY shl 2);
       Len:=Sqrt(Sqr(TX) + Sqr(TY));
       if Len=0 then TX:=0 else TX:=TX/Len * 10;
       if Len=0 then TY:=0 else TY:=TY/Len * 10;
@@ -368,15 +377,15 @@ procedure UpdateGame;
         Continue;
       end;
       if PHarm and (Spaced.Life > 0) and RectOverRect(X, Y, X + 8, Y + 8,
-          PlayerX + 4, 210, PlayerX + 28, 224) then begin
+          PlayerX + 4, PlayerY + 4, PlayerX + 28, PlayerY + 28) then begin
         DeleteLater(Projectiles[I]);
         HitTime:=4;
         LaunchPoof(X, Y, P2Img, 10);
         Dec(Spaced.Life);
         if Spaced.Life=0 then begin
-          LaunchPoof((X + PlayerX) div 2, (Y + 206) div 2, P2Img, 30);
-          LaunchPoof(PlayerX + 13, 204, P1Img, 70);
-          LaunchPoof(PlayerX + 17, 207, P1Img, 96);
+          LaunchPoof((X + PlayerX) div 2, (Y + PlayerY) div 2, P2Img, 30);
+          LaunchPoof(PlayerX + 13, PlayerY - 2, P1Img, 70);
+          LaunchPoof(PlayerX + 17, PlayerY + 1, P1Img, 96);
           RetryY:=-32;
         end;
         Continue;
@@ -389,23 +398,23 @@ procedure UpdateGame;
     if SDL_GetTicks - PlayerShootTime < (200 - Min(100, Max(0, Level*4))) then Exit;
     PlayerShootTime:=SDL_GetTicks;
     ShootTime:=4;
-    LaunchProjectile(PlayerX + 11, 204, 0, -4, PBulletImg, False, True);
+    LaunchProjectile(PlayerX + 11, PlayerY - 2, 0, -4, PBulletImg, False, True);
   end;
 
   procedure ShootEnemyBullet;
   var
     TX, TY, Len: Single;
   begin
-    if Random(100) > PercentNotFire then Exit;
     if Enemies.Count=0 then Exit;
     with Enemies[Random(Enemies.Count)] do begin
+      if Random(10000) > (PercentFire*FireScale) or Y > PlayerY then Exit;
       TOY:=TOY-2;
       TX:=PlayerX - X;
-      TY:=206 - Y;
+      TY:=PlayerY - Y;
       Len:=Sqrt(TX*TX + TY*TY);
       TX:=TX/Len;
       TY:=TY/Len;
-      LaunchProjectile(X + 12, Y + 30, TX, TY, EBulletImg, True, False);
+      LaunchProjectile(X + (WX shr 2)- 4, Y + WY - 2, TX, TY, EBulletImg, True, False);
     end;
   end;
 
