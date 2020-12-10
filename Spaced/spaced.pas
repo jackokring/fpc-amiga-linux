@@ -2,33 +2,7 @@
 program Spaced;
 
 uses
-  SDL, FGL, Math;
-
-type
-  TThing = class
-  public
-    X, Y: Integer;
-    OX, OY: Single;
-    Img: PSDL_Surface;
-  end;
-
-  PEnemy = ^TEnemy;
-  TEnemy = class(TThing)
-  public
-    TOX, TOY: Single;
-    Direction: Integer;
-  end;
-
-  TProjectile = class(TThing)
-  public
-    FX, FY, DX, DY: Single;
-    PHarm, EHarm: Boolean;
-    Life: Integer;
-  end;
-
-  TThingList = specialize TFPGObjectList<TThing>;
-  TEnemyList = specialize TFPGObjectList<TEnemy>;
-  TProjectileList = specialize TFPGObjectList<TProjectile>;
+  SDL, Math, GameObject, Help;
 
 var
   Surface, RealSurface: PSDL_Surface;
@@ -37,13 +11,11 @@ var
   Background, LifeImg, PlayerImg, PlayerHitImg, PlayerDeadImg, PlayerShootImg,
     RetryImg, Nums, PBulletImg, EBulletImg, Enemy1Img, Enemy2Img, P1Img, P2Img: PSDL_Surface;
   PlayerX: Integer;
-  Enemies: TEnemyList;
-  Projectiles: TProjectileList;
   Level, Life, Score, RetryY: Integer;
-  ToDelete: array of TObject;
   PlayerShootTime, ShootTime, HitTime: Cardinal;
-  ScaleMode: Integer = 1;
+  ScaleMode: Integer = 2; (* best scaling *)
 
+(* Generic movable processing and memory management *)
 function SDL_SoftStretch(Src: PSDL_Surface; SrcRect: PSDL_Rect; Dst: PSDL_Surface; DstRect: PSDL_Rect): Integer; cdecl; external 'SDL';
 
 function RectOverRect(AX1, AY1, AX2, AY2, BX1, BY1, BX2, BY2: Integer): Boolean; inline;
@@ -81,32 +53,12 @@ begin
   P.Life:=Life;
 end;
 
-procedure DeleteLater(AObject: TObject);
-var
-  I: Integer;
-begin
-  for I:=0 to High(ToDelete) do if ToDelete[I]=AObject then Exit;
-  SetLength(ToDelete, Length(ToDelete) + 1);
-  ToDelete[High(ToDelete)]:=AObject;
-end;
-
-procedure DeleteDeferredObjects;
-var
-  I: Integer;
-begin
-  for I:=0 to High(ToDelete) do begin
-    if ToDelete[I] is TProjectile then Projectiles.Remove(TProjectile(ToDelete[I]))
-    else if ToDelete[I] is TEnemy then Enemies.Remove(TEnemy(ToDelete[I]))
-    else ToDelete[I].Free;
-  end;
-  SetLength(ToDelete, 0);
-end;
-
 function Key(K: Integer): Boolean; inline;
 begin
   if (K >= Low(KeyState)) and (K <= High(KeyState)) then Result:=KeyState[K] else Result:=False;
 end;
 
+(* Video low level init *)
 function InitVideo: Boolean;
 var
   Flags: Cardinal = SDL_DOUBLEBUF or SDL_SWSURFACE;
@@ -118,6 +70,7 @@ begin
       Flags:=Flags + SDL_FULLSCREEN;
       SDL_ShowCursor(0);
     end;
+    if ParamStr(I)='-single' then ScaleMode:=1;
     if ParamStr(I)='-double' then ScaleMode:=2;
     if ParamStr(I)='-triple' then ScaleMode:=3;
     if ParamStr(I)='-8bit' then Bits:=8;
@@ -151,6 +104,7 @@ begin
   SDL_Flip(RealSurface);
 end;
 
+(* Load bitmaps and titles and full screen draw *)
 procedure LoadImages;
 
   function Load(Name: AnsiString): PSDL_Surface;
@@ -281,6 +235,7 @@ begin
   ShowSurface;
 end;
 
+(* Game loop and initializers *)
 procedure NewGame(Reset: Boolean);
 
   procedure InitEnemies;
@@ -541,7 +496,7 @@ begin
   Randomize;
   SDL_Init(SDL_INIT_VIDEO);
   if not InitVideo then Exit;
-  SDL_WM_SetCaption('Game', 'Game');
+  SDL_WM_SetCaption(GameName, GameName);
   LoadImages;
   TitleScreen;
   NewGame(True);

@@ -1,42 +1,18 @@
 {$I head}
+(* All the literal texts for i18n translation plus some helper routines *)
 unit Help;
 
 interface
 
 const
-    DirectoryPrefix = 'spaced'; (* could get confusing if different apps used *)
+        DirectoryPrefix = 'spaced'; (* could get confusing if different apps used *)
 
 resourcestring
-    (* here goes the constant strings to be extracted for using the linguistic interface *)
-
-    (* exception help *)
-    (* for all bad input values *)
-    FormatExHelp = 'Some input was in a bad or malicious format.';
-    (* for all cases where the input is not available *)
-    ConsumerExHelp = 'There is nothing to consume as input.';
-    (* for all cases where the output has nowhere to go *)
-    ProducerExHelp = 'The output production has nowhere to go.';
-    (* for all cases where a keyed index can not be found *)
-    NameExHelp = 'That is not found, or creation was impossible.';
-    (* for all cases where there is more than one way of progressing *)
-    AmbiguityExHelp = 'There is no way to determine a best course of action.';
-    (* for when something else failed to provide the service *)
-    ProxyExHelp = 'Some other external application had problems.';
-    (* this is related to zero being special *)
-    OriginExHelp = 'Zero is strange. Emptiness everywhere but nowhere.';
-    (* this is related to consumer/producer exceptions, but where no input/output would even make sense *)
-    LimitExHelp = 'There is no past the current limits. Finite things.';
-    (* this is the terminal exception which creates all other exceptions, an easy raise *)
-    FinalExHelp = 'It was impossible to complete processing something.';
-    (* this is for correct format, but incorrect credential (public) keys *)
-    IdentityExHelp = 'Your credentials did not verify.';
-    (* this is for correct format, but incorrect decoding (private) keys *)
-    DecoderExHelp = 'It was not possible to decode using that key.';
-    (* sometimes the ETA is beyond acceptable *)
-    CoachExHelp = 'The time required exceeds the alloted amount.';
+        (* here goes the constant strings to be extracted for using the linguistic interface *)
+        GameName = 'Spaced';
 
 function ProgramDir(): String;
-function CS(a: String; b: String): Boolean;
+function CS(a: String; b: String): Boolean; (* Compare String *)
 function EscC(input: String): String;
 function NowUTC(): TDateTime;
 function GetISODate(): String;
@@ -47,7 +23,7 @@ uses GetText, SysUtils;
 
 function ProgramDir(): String;
 begin
-    ExtractFilePath(ParamStr(0));
+        ExtractFilePath(ParamStr(0));
 end;
 
 function CS(a: String; b: String): Boolean; (* Compare String *)
@@ -83,7 +59,7 @@ begin
                                 end;
                         if Input[I] = #92 then (* backslash *)
                                 begin
-                                        J := Pos(GetNextWrap(Input, I), Finds);
+                                        J := Pos(GetNextWrap(Input, I + 1), Finds);
                                         if J > 0 then
                                                 begin
                                                         EscC := EscC + RepWith[J];
@@ -99,7 +75,7 @@ end;
 
 function NowUTC(): TDateTime;
 begin
-    NowUTC := Now() + GetLocalTimeOffset();
+        NowUTC := Now() + GetLocalTimeOffset();
 end;
 
 function GetISODate(): String;
@@ -108,6 +84,5 @@ begin
 end;
 
 initialization
-    TranslateResourceStrings(ProgramDir() + DirectoryPrefix + '-langs/%s.mo');
-
+        TranslateResourceStrings(ProgramDir() + '/' + DirectoryPrefix + '-langs/%s.mo');
 end.
