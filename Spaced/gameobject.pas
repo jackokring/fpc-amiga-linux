@@ -15,7 +15,6 @@ type
         Img: PSDL_Surface;
         LeftBits: Integer;
         Frames: Integer;
-        ScoresByY: Integer;
     end;
 
     PEnemy = ^TEnemy;
@@ -24,6 +23,8 @@ type
         TOX, TOY: Single; (* splash control *)
         Direction: Integer;
         FireScale: Integer;
+        ScoresByY: Integer;
+        StraughtFire: Boolean;
         procedure SetValues(IX, IY: Integer; IDirection: Integer; ILevel: Integer;
             Image: Integer); virtual;
         procedure ExtraMotion(PX, PY: Integer); virtual;
@@ -120,6 +121,7 @@ begin
     Frames:= 0; (* bitmask for frames count *)
     Image:=Image - 1; (* dynamic array starts at zero as dynamic !! *)
     ScoresByY:=3;
+    StraughtFire:=False;
     if (ILevel*17 + X*311 + Y*3787) mod 2=0 then
         Img:=ImagesLoaded[Image]
     else

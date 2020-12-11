@@ -436,11 +436,16 @@ procedure UpdateGame;
     with Enemies[Random(Enemies.Count)] do begin
       if (Random(10000) > PercentFire*FireScale) or (Y > PlayerY) then Exit;
       TOY:=TOY-2;
-      TX:=PlayerX - X;
-      TY:=PlayerY - Y;
-      Len:=Sqrt(TX*TX + TY*TY);
-      TX:=TX/Len;
-      TY:=TY/Len;
+      if StraightFire then begin
+        TX:=0;
+        TY:=2;
+      end else begin
+        TX:=PlayerX - X;
+        TY:=PlayerY - Y;
+        Len:=Sqrt(TX*TX + TY*TY);
+        TX:=TX/Len;
+        TY:=TY/Len;
+      end;
       LaunchProjectile(X + (WX shr 2)- 4, Y + WY - 2, TX, TY, EBulletImg, True, False);
     end;
   end;
