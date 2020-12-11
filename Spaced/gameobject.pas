@@ -13,6 +13,8 @@ type
         OX, OY: Single; (* splash *)
         WX, WY: Integer; (* width, height *)
         Img: PSDL_Surface;
+        LeftBits: Integer;
+        Frames: Integer;
     end;
 
     PEnemy = ^TEnemy;
@@ -113,6 +115,8 @@ begin
     WY:=32;
     Direction:=IDirection;
     FireScale:=100;
+    LeftBits:=5; (* /64 of CurrentTime *)
+    Frames:= 0; (* bitmask for frames count *)
     Image:=Image - 1; (* dynamic array starts at zero as dynamic !! *)
     if (ILevel*17 + X*311 + Y*3787) mod 2=0 then
         Img:=ImagesLoaded[Image]

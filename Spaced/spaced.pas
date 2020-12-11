@@ -15,6 +15,7 @@ var
   PlayerShootTime, ShootTime, HitTime: Cardinal;
   ScaleMode: Integer = 2; (* best scaling *)
   PercentFire: Integer;
+  CurrentTime: Cardinal; (* Animation counter *)
 
 (* Generic movable processing and memory management *)
 function SDL_SoftStretch(Src: PSDL_Surface; SrcRect: PSDL_Rect; Dst: PSDL_Surface; DstRect: PSDL_Rect): Integer; cdecl; external 'SDL';
@@ -168,6 +169,23 @@ procedure DrawScreen;
     SDL_BlitSurface(Nums, @S, Surface, @R);
   end;
 
+  procedure DrawAnim(T: TThing);
+  var
+    R, S: TSDL_Rect;
+  begin
+    with T do
+      R.x:=Round(X + OX);
+      R.y:=Round(Y + OY);
+      R.w:=WX;
+      R.h:=WY;
+      S.x:=WX*((CurrentTime shl LeftBits) and Frames);
+      S.y:=0;
+      S.w:=WX;
+      S.h:=WH;
+      SDL_BlitSurface(Img, @S, Surface, @R);
+    end;
+  end;
+
   procedure DrawNumber(X, Y, N: Integer);
   var
     V: Integer = 10000000;
@@ -185,8 +203,8 @@ procedure DrawScreen;
   var
     I: Integer;
   begin
-    for I:=0 to ThingList.Count - 1 do with ThingList[I] do
-      Draw(Round(X + OX), Round(Y + OY), Img);
+    for I:=0 to ThingList.Count - 1 do
+      DrawAnim(ThingList[I]);
   end;
 
   procedure DrawHUD;
@@ -455,7 +473,7 @@ end;
 
 procedure MainLoop;
 var
-  LastTime, CurrentTime: Cardinal;
+  LastTime: Cardinal;
 
   procedure HandleEvents;
   var
