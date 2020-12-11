@@ -310,6 +310,7 @@ procedure UpdateGame;
     for I:=0 to Enemies.Count - 1 do with Enemies[I] do begin
       Inc(X, Direction);
       ExtraMotion(PlayerX, PlayerY);
+      (* filter splash *)
       OX:=OX + (TOX - OX)*0.9;
       OY:=OY + (TOY - OY)*0.9;
       TOX:=TOX*0.9;
@@ -355,7 +356,7 @@ procedure UpdateGame;
       end;
   end;
 
-  procedure Splash(CX, CY: Integer);
+  procedure Splash(CX, CY: Integer); (* Enemy died splash hole *)
   const
     Radius = 100;
   var
@@ -395,9 +396,11 @@ procedure UpdateGame;
       if EHarm and CollisionWithEnemy(X, Y, 9, 9, -1, @Enemy) then begin
         DeleteLater(Projectiles[I]);
         DeleteLater(Enemy);
-        LaunchPoof(Enemy.X + 16, Enemy.Y + 16, P1Img, 20);
-        Splash(Enemy.X + 16, Enemy.Y + 16);
-        Inc(Score, Y*3+30);
+        with Enemy do
+          LaunchPoof(X + (WX shl 1), Y + (WY shl 1), P1Img, 20);
+          Splash(X + (WX shl 1), Y + (WY shl 1));
+          Inc(Score, Y*ScoresByY+30);
+        end;
         Continue;
       end;
       if PHarm and (Spaced.Life > 0) and RectOverRect(X, Y, X + 8, Y + 8,
