@@ -509,10 +509,11 @@ begin
   LastTime:=SDL_GetTicks();
   while Running do begin
     CurrentTime:=SDL_GetTicks();
+    (* stall processing *)
     if CurrentTime - LastTime > 1000 then LastTime:=CurrentTime - 60;
-    while CurrentTime - LastTime > 1000/20 do begin
+    while CurrentTime - LastTime > 50 do begin (* action frame *)
       UpdateGame;
-      Inc(LastTime, 20);
+      Inc(LastTime, 20); (* speed 20=>50 frames per second *)
     end;
     HandleEvents;
     DrawScreen;
