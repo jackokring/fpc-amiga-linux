@@ -1,0 +1,15 @@
+object MainForm: TMainForm
+  Left = 262
+  Height = 341
+  Top = 161
+  Width = 308
+  BorderStyle = bsSingle
+  Caption = 'AMyGUI'
+  Menu = MainMenu
+  OnCreate = FormCreate
+  LCLVersion = '2.0.6.0'
+  object MainMenu: TMainMenu
+    left = 46
+    top = 38
+  end
+end

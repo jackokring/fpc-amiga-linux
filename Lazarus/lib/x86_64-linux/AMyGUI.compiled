@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="/usr/bin/fpc" Date="1574718682"/>
+  <Params Value=" -Tlinux -MObjFPC -Scghi -Cg -O1 -g -gl -l -vewnhibq &quot;-Fi/home/jacko/Amiga ROMs and Things/CodeDev/Lazarus/lib/x86_64-linux&quot; -Fu/usr/lib/lazarus/2.0.6/lcl/units/x86_64-linux/gtk2 -Fu/usr/lib/lazarus/2.0.6/lcl/units/x86_64-linux -Fu/usr/lib/lazarus/2.0.6/components/lazutils/lib/x86_64-linux -Fu/usr/lib/lazarus/2.0.6/packager/units/x86_64-linux &quot;-Fu/home/jacko/Amiga ROMs and Things/CodeDev/Lazarus/&quot; &quot;-FU/home/jacko/Amiga ROMs and Things/CodeDev/Lazarus/lib/x86_64-linux/&quot; &quot;-FE/home/jacko/Amiga ROMs and Things/CodeDev/Lazarus/&quot; &quot;-o/home/jacko/Amiga ROMs and Things/CodeDev/Lazarus/AMyGUI&quot; -dLCL -dLCLgtk2 AMyGUI.lpr"/>
+</CONFIG>
