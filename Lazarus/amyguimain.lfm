@@ -1,7 +1,7 @@
 object MainForm: TMainForm
-  Left = 249
+  Left = 222
   Height = 553
-  Top = 161
+  Top = 194
   Width = 796
   BorderStyle = bsSingle
   Caption = 'AMyGUI'
@@ -161,26 +161,37 @@ object MainForm: TMainForm
     end
     object ToolsMenu: TMenuItem
       Caption = 'Tools'
-      object SignVerifyMenuItem: TMenuItem
-        Caption = 'Sign Verify(&W)'
-        ShortCut = 16471
-        OnClick = SignVerifyMenuItemClick
-      end
-      object MakeNoteMenuItem: TMenuItem
-        Caption = 'Make Note(&B)'
-        ShortCut = 16450
-        OnClick = MakeNoteMenuItemClick
+      object TaskMenuItem: TMenuItem
+        Caption = '&Task'
+        ShortCut = 16468
       end
       object QueryMenuItem: TMenuItem
         Caption = 'Query(&E)'
         ShortCut = 16453
         OnClick = QueryMenuItemClick
       end
+      object ObserverMenuItem: TMenuItem
+        Caption = 'Observer(&U)'
+        ShortCut = 16469
+      end
+      object MakeNoteMenuItem: TMenuItem
+        Caption = 'Make Note(&B)'
+        ShortCut = 16450
+        OnClick = MakeNoteMenuItemClick
+      end
       object NotifyMenuItem: TMenuItem
         Caption = 'Notify(&G)'
         ShortCut = 16455
         OnClick = NotifyMenuItemClick
       end
+      object SignVerifyMenuItem: TMenuItem
+        Caption = 'Sign Verify(&W)'
+        ShortCut = 16471
+        OnClick = SignVerifyMenuItemClick
+      end
+    end
+    object EscapeMenu: TMenuItem
+      Caption = 'Escape'
     end
   end
 end

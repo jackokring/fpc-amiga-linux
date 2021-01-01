@@ -30,6 +30,9 @@ type
     ArchiveMenuItem: TMenuItem;
     MakeNoteMenuItem: TMenuItem;
     MarkMenuItem: TMenuItem;
+    EscapeMenu: TMenuItem;
+    ObserverMenuItem: TMenuItem;
+    TaskMenuItem: TMenuItem;
     RefreshMenuItem: TMenuItem;
     QueryMenuItem: TMenuItem;
     NotifyMenuItem: TMenuItem;
@@ -71,6 +74,7 @@ type
     procedure SaveMenuItemClick(Sender: TObject);
     procedure SelectAllMenuItemClick(Sender: TObject);
     procedure SignVerifyMenuItemClick(Sender: TObject);
+    procedure TaskMenuItemClick(Sender: TObject);
     procedure TrayMenuItemClick(Sender: TObject);
   private
 
@@ -213,6 +217,11 @@ begin
 end;
 
 procedure TMainForm.SignVerifyMenuItemClick(Sender: TObject);
+begin
+
+end;
+
+procedure TMainForm.TaskMenuItemClick(Sender: TObject);
 begin
 
 end;
