@@ -1,3 +1,4 @@
+## musts or essentials
 ./ security as window
 sudo as GUI
 task as view menu for selection of "roll"?
@@ -13,6 +14,7 @@ queries as environmentals?
 archives as compact serializables
 signs verifies as seen locking
 observers as view based detection of happens for notifications and "HERE" operators
+signed operator script execute policy for ring including ring NUL
 
 ## in minds
 primary multi dimensional labelled dataset
@@ -22,3 +24,6 @@ representation of control embeddables
 cloud git saves for pull instance re-remoting
 ssh logons password kinda auto key
 demux junctions of SIMD style commands
+sychronous wait for start on file close (auto &)
+protection ring obvious parse compile/execution violation detection
+
