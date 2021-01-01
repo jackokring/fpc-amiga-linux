@@ -1,15 +1,118 @@
 object MainForm: TMainForm
-  Left = 262
-  Height = 341
+  Left = 249
+  Height = 553
   Top = 161
-  Width = 308
+  Width = 796
   BorderStyle = bsSingle
   Caption = 'AMyGUI'
+  ClientHeight = 528
+  ClientWidth = 796
   Menu = MainMenu
   OnCreate = FormCreate
   LCLVersion = '2.0.6.0'
+  object OutputText: TMemo
+    Left = 10
+    Height = 400
+    Top = 11
+    Width = 773
+    HideSelection = False
+    ReadOnly = True
+    ScrollBars = ssVertical
+    TabOrder = 2
+    TabStop = False
+  end
+  object InputText: TMemo
+    Left = 10
+    Height = 101
+    Top = 419
+    Width = 630
+    HideSelection = False
+    ScrollBars = ssVertical
+    TabOrder = 0
+  end
+  object ExecuteButton: TButton
+    Left = 644
+    Height = 44
+    Top = 417
+    Width = 140
+    Action = ExecuteActionItem
+    Default = True
+    OnClick = ExecuteButtonClick
+    TabOrder = 1
+  end
+  object RedoButton: TButton
+    Left = 644
+    Height = 44
+    Top = 473
+    Width = 139
+    Action = RedoActionItem
+    TabOrder = 3
+  end
   object MainMenu: TMainMenu
     left = 46
     top = 38
+    object FileMenu: TMenuItem
+      Caption = 'File'
+      object NewMenuItem: TMenuItem
+        Caption = '&New'
+        ShortCut = 16462
+        OnClick = NewMenuItemClick
+      end
+      object OpenMenuItem: TMenuItem
+        Caption = '&Open ...'
+        ShortCut = 16463
+        OnClick = OpenMenuItemClick
+      end
+      object SaveMenuItem: TMenuItem
+        Caption = '&Save ...'
+        ShortCut = 16467
+        OnClick = SaveMenuItemClick
+      end
+      object ExportMenuItem: TMenuItem
+        Caption = 'Ex&port'
+        ShortCut = 16464
+        OnClick = ExportMenuItemClick
+      end
+    end
+    object EditMenu: TMenuItem
+      Caption = 'Edit'
+      object CutMenuItem: TMenuItem
+        Caption = 'Cut(&X)'
+        ShortCut = 16472
+        OnClick = CutMenuItemClick
+      end
+      object CopyMenuItem: TMenuItem
+        Caption = '&Copy'
+        ShortCut = 16451
+        OnClick = CopyMenuItemClick
+      end
+      object PasteMenuItem: TMenuItem
+        Caption = 'Paste(&V)'
+        ShortCut = 16470
+        OnClick = PasteMenuItemClick
+      end
+      object SelectAllMenuItem: TMenuItem
+        Caption = 'Select &All'
+        ShortCut = 16449
+        OnClick = SelectAllMenuItemClick
+      end
+    end
+    object ViewMenu: TMenuItem
+      Caption = 'View'
+    end
+  end
+  object ActionList: TActionList
+    left = 128
+    top = 38
+    object ExecuteActionItem: TAction
+      Caption = 'Execute(&J)'
+      OnExecute = ExecuteActionItemExecute
+      ShortCut = 16458
+    end
+    object RedoActionItem: TAction
+      Caption = 'Redo(&M)'
+      OnExecute = RedoActionItemExecute
+      ShortCut = 16461
+    end
   end
 end
