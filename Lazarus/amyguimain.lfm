@@ -15,39 +15,38 @@ object MainForm: TMainForm
     Height = 400
     Top = 11
     Width = 773
+    Font.Height = -13
+    Font.Name = 'Courier New'
     HideSelection = False
+    ParentFont = False
     ReadOnly = True
     ScrollBars = ssVertical
     TabOrder = 2
     TabStop = False
+    WantReturns = False
   end
   object InputText: TMemo
     Left = 10
     Height = 101
     Top = 419
     Width = 630
+    Font.Height = -13
+    Font.Name = 'Courier New'
     HideSelection = False
+    ParentFont = False
     ScrollBars = ssVertical
     TabOrder = 0
     WantReturns = False
   end
   object ExecuteButton: TButton
     Left = 644
-    Height = 44
+    Height = 103
     Top = 417
     Width = 140
-    Action = ExecuteActionItem
+    Caption = 'Execute'
     Default = True
     OnClick = ExecuteButtonClick
     TabOrder = 1
-  end
-  object RedoButton: TButton
-    Left = 644
-    Height = 44
-    Top = 473
-    Width = 139
-    Action = RedoActionItem
-    TabOrder = 3
   end
   object MainMenu: TMainMenu
     left = 46
@@ -74,6 +73,16 @@ object MainForm: TMainForm
         ShortCut = 16464
         OnClick = ExportMenuItemClick
       end
+      object ArchiveMenuItem: TMenuItem
+        Caption = 'Archive(&Y)'
+        ShortCut = 16473
+        OnClick = ArchiveMenuItemClick
+      end
+      object QuitMenuItem: TMenuItem
+        Caption = '&Quit'
+        ShortCut = 16465
+        OnClick = QuitMenuItemClick
+      end
     end
     object EditMenu: TMenuItem
       Caption = 'Edit'
@@ -97,28 +106,81 @@ object MainForm: TMainForm
         ShortCut = 16449
         OnClick = SelectAllMenuItemClick
       end
+      object InsertBackspaceMenuItem: TMenuItem
+        Caption = 'Insert Backspace(&H)'
+        ShortCut = 16456
+        OnClick = InsertBackspaceMenuItemClick
+      end
       object InsertTabMenuItem: TMenuItem
         Caption = '&Insert Tab'
         ShortCut = 16457
         OnClick = InsertTabMenuItemClick
       end
+      object InsertEnterMenuItem: TMenuItem
+        Caption = 'Insert Enter(&J)'
+        ShortCut = 16458
+        OnClick = InsertEnterMenuItemClick
+      end
+      object InsertColumnAlignMenuItem: TMenuItem
+        Caption = 'Insert Column Align(&K)'
+        ShortCut = 16459
+        OnClick = InsertColumnAlignMenuItemClick
+      end
+      object InsertReprintPageMenuItem: TMenuItem
+        Caption = 'Insert Reprint Page(&L)'
+        ShortCut = 16460
+        OnClick = InsertReprintPageMenuItemClick
+      end
+      object InsertReprintLineMenuItem: TMenuItem
+        Caption = 'Insert Reprint Line(&M)'
+        ShortCut = 16461
+        OnClick = InsertReprintLineMenuItemClick
+      end
     end
     object ViewMenu: TMenuItem
       Caption = 'View'
+      object RefreshMenuItem: TMenuItem
+        Caption = '&Refresh'
+        ShortCut = 16466
+      end
+      object MarkMenuItem: TMenuItem
+        Caption = 'Mark(&D)'
+        ShortCut = 16452
+        OnClick = MarkMenuItemClick
+      end
+      object RecallMenuItem: TMenuItem
+        Caption = 'Recall(&F)'
+        ShortCut = 16454
+        OnClick = RecallMenuItemClick
+      end
+      object TrayMenuItem: TMenuItem
+        Caption = 'Tray(&Z)'
+        ShortCut = 16474
+        OnClick = TrayMenuItemClick
+      end
     end
-  end
-  object ActionList: TActionList
-    left = 128
-    top = 38
-    object ExecuteActionItem: TAction
-      Caption = 'Execute(&J)'
-      OnExecute = ExecuteActionItemExecute
-      ShortCut = 16458
-    end
-    object RedoActionItem: TAction
-      Caption = 'Redo(&M)'
-      OnExecute = RedoActionItemExecute
-      ShortCut = 16461
+    object ToolsMenu: TMenuItem
+      Caption = 'Tools'
+      object SignVerifyMenuItem: TMenuItem
+        Caption = 'Sign Verify(&W)'
+        ShortCut = 16471
+        OnClick = SignVerifyMenuItemClick
+      end
+      object MakeNoteMenuItem: TMenuItem
+        Caption = 'Make Note(&B)'
+        ShortCut = 16450
+        OnClick = MakeNoteMenuItemClick
+      end
+      object QueryMenuItem: TMenuItem
+        Caption = 'Query(&E)'
+        ShortCut = 16453
+        OnClick = QueryMenuItemClick
+      end
+      object NotifyMenuItem: TMenuItem
+        Caption = 'Notify(&G)'
+        ShortCut = 16455
+        OnClick = NotifyMenuItemClick
+      end
     end
   end
 end
