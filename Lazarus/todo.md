@@ -15,6 +15,8 @@ archives as compact serializables
 signs verifies as seen locking
 observers as view based detection of happens for notifications and "HERE" operators
 signed operator script execute policy for ring including ring NUL
+messaging such as "Code X requires elevation to run. Signed YYYY. Y/N?"
+also messaging like "Code X ws on the stack in error. Trace/demote YYYY. Y/N?"
 
 ## in minds
 primary multi dimensional labelled dataset
