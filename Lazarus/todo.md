@@ -18,6 +18,8 @@ signed operator script execute policy for ring including ring NUL
 messaging such as "Code X requires elevation to run. Signed YYYY. Y/N?"
 also messaging like "Code X ws on the stack in error. Trace/demote YYYY. Y/N?"
 built outs and alts maintainance list
+datatime and fingerprint based ./ and others for install independance of date
+wider cards? synced tupling and sub selects
 
 ## in minds
 primary multi dimensional labelled dataset
