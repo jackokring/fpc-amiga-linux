@@ -31,6 +31,17 @@ type
     MakeNoteMenuItem: TMenuItem;
     MarkMenuItem: TMenuItem;
     EscapeMenu: TMenuItem;
+    MenuItem1: TMenuItem;
+    MenuItem2: TMenuItem;
+    MenuItem3: TMenuItem;
+    MenuItem4: TMenuItem;
+    MenuItem5: TMenuItem;
+    MenuItem6: TMenuItem;
+    MenuItem7: TMenuItem;
+    DeleteMenuItem: TMenuItem;
+    MenuItem8: TMenuItem;
+    MenuItem9: TMenuItem;
+    NulMenuItem: TMenuItem;
     TasksMenuItem: TMenuItem;
     ObserverMenuItem: TMenuItem;
     RefreshMenuItem: TMenuItem;
@@ -51,6 +62,7 @@ type
     procedure ArchiveMenuItemClick(Sender: TObject);
     procedure CopyMenuItemClick(Sender: TObject);
     procedure CutMenuItemClick(Sender: TObject);
+    procedure DeleteMenuItemClick(Sender: TObject);
     procedure ExecuteActionItemExecute(Sender: TObject);
     procedure ExecuteButtonClick(Sender: TObject);
     procedure ExportMenuItemClick(Sender: TObject);
@@ -63,6 +75,7 @@ type
     procedure InsertColumnAlignMenuItemClick(Sender: TObject);
     procedure MakeNoteMenuItemClick(Sender: TObject);
     procedure MarkMenuItemClick(Sender: TObject);
+    procedure NulMenuItemClick(Sender: TObject);
     procedure QueryMenuItemClick(Sender: TObject);
     procedure NotifyMenuItemClick(Sender: TObject);
     procedure OpenMenuItemClick(Sender: TObject);
@@ -137,6 +150,11 @@ begin
 
 end;
 
+procedure TMainForm.NulMenuItemClick(Sender: TObject);
+begin
+
+end;
+
 procedure TMainForm.QueryMenuItemClick(Sender: TObject);
 begin
 
@@ -158,6 +176,11 @@ begin
 end;
 
 procedure TMainForm.CutMenuItemClick(Sender: TObject);
+begin
+
+end;
+
+procedure TMainForm.DeleteMenuItemClick(Sender: TObject);
 begin
 
 end;

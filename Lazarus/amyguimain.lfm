@@ -68,6 +68,9 @@ object MainForm: TMainForm
         ShortCut = 16467
         OnClick = SaveMenuItemClick
       end
+      object MenuItem1: TMenuItem
+        Caption = '-'
+      end
       object ExportMenuItem: TMenuItem
         Caption = 'Ex&port'
         ShortCut = 16464
@@ -77,6 +80,9 @@ object MainForm: TMainForm
         Caption = 'Archive(&Y)'
         ShortCut = 16473
         OnClick = ArchiveMenuItemClick
+      end
+      object MenuItem2: TMenuItem
+        Caption = '-'
       end
       object QuitMenuItem: TMenuItem
         Caption = '&Quit'
@@ -106,6 +112,9 @@ object MainForm: TMainForm
         ShortCut = 16449
         OnClick = SelectAllMenuItemClick
       end
+      object MenuItem3: TMenuItem
+        Caption = '-'
+      end
       object InsertBackspaceMenuItem: TMenuItem
         Caption = 'Insert Backspace(&H)'
         ShortCut = 16456
@@ -120,6 +129,9 @@ object MainForm: TMainForm
         Caption = 'Insert Enter(&J)'
         ShortCut = 16458
         OnClick = InsertEnterMenuItemClick
+      end
+      object MenuItem8: TMenuItem
+        Caption = '-'
       end
       object InsertColumnAlignMenuItem: TMenuItem
         Caption = 'Insert Column Align(&K)'
@@ -136,6 +148,19 @@ object MainForm: TMainForm
         ShortCut = 16461
         OnClick = InsertReprintLineMenuItemClick
       end
+      object MenuItem9: TMenuItem
+        Caption = '-'
+      end
+      object NulMenuItem: TMenuItem
+        Caption = 'Insert NUL(&@)'
+        ShortCut = 24626
+        OnClick = NulMenuItemClick
+      end
+      object DeleteMenuItem: TMenuItem
+        Caption = 'Overwrite DEL(&?)'
+        ShortCut = 24767
+        OnClick = DeleteMenuItemClick
+      end
     end
     object ViewMenu: TMenuItem
       Caption = 'View'
@@ -148,6 +173,9 @@ object MainForm: TMainForm
         Caption = '&Refresh'
         ShortCut = 16466
       end
+      object MenuItem4: TMenuItem
+        Caption = '-'
+      end
       object MarkMenuItem: TMenuItem
         Caption = 'Mark(&D)'
         ShortCut = 16452
@@ -157,6 +185,9 @@ object MainForm: TMainForm
         Caption = 'Recall(&F)'
         ShortCut = 16454
         OnClick = RecallMenuItemClick
+      end
+      object MenuItem5: TMenuItem
+        Caption = '-'
       end
       object TrayMenuItem: TMenuItem
         Caption = 'Tray(&Z)'
@@ -175,20 +206,26 @@ object MainForm: TMainForm
         Caption = 'Observer(&U)'
         ShortCut = 16469
       end
+      object MenuItem6: TMenuItem
+        Caption = '-'
+      end
       object MakeNoteMenuItem: TMenuItem
         Caption = 'Make Note(&B)'
         ShortCut = 16450
         OnClick = MakeNoteMenuItemClick
       end
-      object NotifyMenuItem: TMenuItem
-        Caption = 'Notify(&G)'
-        ShortCut = 16455
-        OnClick = NotifyMenuItemClick
-      end
       object SignVerifyMenuItem: TMenuItem
         Caption = 'Sign Verify(&W)'
         ShortCut = 16471
         OnClick = SignVerifyMenuItemClick
+      end
+      object MenuItem7: TMenuItem
+        Caption = '-'
+      end
+      object NotifyMenuItem: TMenuItem
+        Caption = 'Notify(&G)'
+        ShortCut = 16455
+        OnClick = NotifyMenuItemClick
       end
     end
     object EscapeMenu: TMenuItem
