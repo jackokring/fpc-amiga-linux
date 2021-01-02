@@ -6,6 +6,7 @@ escapes/immediates/compiles
 non embeddable control codes
 builtins
 export formats with ins a literals and outs as # literals
+someone's bound to export a thing which should be observed for no do, so mechanism
 continuation execution?
 GUI proxies fn key macros?
 multi output interleave based on selections
