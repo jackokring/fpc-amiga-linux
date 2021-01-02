@@ -1,7 +1,7 @@
 ## musts or essentials
 ./ security as window
 sudo as GUI
-task as view menu for selection of "roll"?
+!task as view menu for selection of "roll"?
 escapes/immediates/compiles
 non embeddable control codes
 builtins

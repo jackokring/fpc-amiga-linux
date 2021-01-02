@@ -139,6 +139,11 @@ object MainForm: TMainForm
     end
     object ViewMenu: TMenuItem
       Caption = 'View'
+      object TasksMenuItem: TMenuItem
+        Caption = '&Tasks'
+        ShortCutKey2 = 16468
+        OnClick = TasksMenuItemClick
+      end
       object RefreshMenuItem: TMenuItem
         Caption = '&Refresh'
         ShortCut = 16466
@@ -161,10 +166,6 @@ object MainForm: TMainForm
     end
     object ToolsMenu: TMenuItem
       Caption = 'Tools'
-      object TaskMenuItem: TMenuItem
-        Caption = '&Task'
-        ShortCut = 16468
-      end
       object QueryMenuItem: TMenuItem
         Caption = 'Query(&E)'
         ShortCut = 16453
