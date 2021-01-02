@@ -28,4 +28,4 @@ ssh logons password kinda auto key
 demux junctions of SIMD style commands
 sychronous wait for start on file close (auto &)
 protection ring obvious parse compile/execution violation detection
-
+referer invoker DB sign advisories and auth coalates
