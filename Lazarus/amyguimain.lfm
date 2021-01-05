@@ -9,7 +9,7 @@ object MainForm: TMainForm
   ClientWidth = 796
   Menu = MainMenu
   OnCreate = FormCreate
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '2.0.10.0'
   object OutputText: TMemo
     Left = 10
     Height = 400
@@ -49,8 +49,8 @@ object MainForm: TMainForm
     TabOrder = 1
   end
   object MainMenu: TMainMenu
-    left = 46
-    top = 38
+    Left = 46
+    Top = 38
     object FileMenu: TMenuItem
       Caption = 'File'
       object NewMenuItem: TMenuItem
@@ -230,6 +230,14 @@ object MainForm: TMainForm
     end
     object EscapeMenu: TMenuItem
       Caption = 'Escape'
+      object CompileActionMenuItem: TMenuItem
+        Caption = 'Compile Action'
+        ShortCut = 27
+      end
+      object EscapeMenuItem: TMenuItem
+        Caption = 'Insert Escape(&[)'
+        ShortCut = 16603
+      end
     end
   end
 end

@@ -15,13 +15,41 @@
       <Icon Value="0"/>
     </General>
     <MacroValues Count="1">
-      <Macro2 Name="LCLWidgetType" Value="gtk2"/>
+      <Macro1 Name="LCLWidgetType" Value="gtk2"/>
     </MacroValues>
-    <BuildModes Count="1">
+    <BuildModes Count="2">
       <Item1 Name="Default" Default="True"/>
-      <SharedMatrixOptions Count="2">
-        <Item1 ID="378104221848" Type="IDEMacro" MacroName="LCLWidgetType" Value="mui"/>
-        <Item2 ID="603614854180" Modes="Default" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>
+      <Item2 Name="Amiga Cross">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <Target>
+            <Filename Value="AMyGUI"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <TargetProcessor Value="68020"/>
+            <TargetCPU Value="m68k"/>
+            <TargetOS Value="amiga"/>
+          </CodeGeneration>
+          <Linking>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+          <Other>
+            <CompilerPath Value="/opt/amiga/fpc-3.2.0/lib/fpc/3.2.0/ppcross68k"/>
+          </Other>
+        </CompilerOptions>
+      </Item2>
+      <SharedMatrixOptions Count="3">
+        <Item1 ID="156543661079" Modes="Default" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>
+        <Item2 ID="276307995536" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt"/>
+        <Item3 ID="057384927959" Type="IDEMacro" MacroName="LCLWidgetType" Value="mui"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>

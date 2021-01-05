@@ -32,6 +32,8 @@ type
     MarkMenuItem: TMenuItem;
     EscapeMenu: TMenuItem;
     MenuItem1: TMenuItem;
+    CompileActionMenuItem: TMenuItem;
+    EscapeMenuItem: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
